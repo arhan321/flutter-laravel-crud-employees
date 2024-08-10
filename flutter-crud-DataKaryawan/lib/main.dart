@@ -37,7 +37,13 @@ class _EmployeeDataPageState extends State<EmployeeDataPage> {
   @override
   void initState() {
     super.initState();
-    futureEmployees = getEmployees();
+    _refreshEmployees();
+  }
+
+  void _refreshEmployees() {
+    setState(() {
+      futureEmployees = getEmployees();
+    });
   }
 
   Future<List<Map<String, dynamic>>> getEmployees() async {
@@ -69,9 +75,7 @@ class _EmployeeDataPageState extends State<EmployeeDataPage> {
 
     try {
       await conn.query('DELETE FROM employees WHERE id = ?', [id]);
-      setState(() {
-        futureEmployees = getEmployees();
-      });
+      _refreshEmployees();
     } finally {
       await conn.close();
     }
@@ -82,6 +86,12 @@ class _EmployeeDataPageState extends State<EmployeeDataPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Data Karyawan'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: _refreshEmployees,
+          ),
+        ],
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: futureEmployees,
