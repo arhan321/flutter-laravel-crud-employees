@@ -7,7 +7,6 @@ class ViewEmployeePage extends StatelessWidget {
     final Map<String, dynamic> employee =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
-    // Format salary to Rupiah
     final NumberFormat currencyFormatter =
         NumberFormat.currency(locale: 'id_ID', symbol: 'Rp', decimalDigits: 0);
     final String formattedSalary = currencyFormatter.format(employee['salary']);
