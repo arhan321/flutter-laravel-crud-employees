@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ViewEmployeePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> employee =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+    // Format salary to Rupiah
+    final NumberFormat currencyFormatter =
+        NumberFormat.currency(locale: 'id_ID', symbol: 'Rp', decimalDigits: 0);
+    final String formattedSalary = currencyFormatter.format(employee['salary']);
 
     return Scaffold(
       appBar: AppBar(
@@ -24,7 +30,7 @@ class ViewEmployeePage extends StatelessWidget {
             SizedBox(height: 10),
             Text('Department: ${employee['department']}'),
             SizedBox(height: 10),
-            Text('Salary: \Rp.${employee['salary']}'),
+            Text('Salary: $formattedSalary'),
             SizedBox(height: 10),
             Text('Hire Date: ${employee['hire_date']}'),
           ],
